@@ -14,8 +14,12 @@ import entities.Hobby;
  * @author Renz
  */
 public class HobbiesDTO {
-
     List<HobbyDTO> all = new ArrayList<>();
+    
+    public HobbiesDTO(){
+        
+    }
+
 
     public HobbiesDTO(List<Hobby> hobbyEntities) {
         for (Hobby hobbyEntity : hobbyEntities) {
