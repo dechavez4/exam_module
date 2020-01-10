@@ -6,8 +6,6 @@
 package rest;
 
 import DTO.PersonDTO;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import entities.Address;
 import entities.Hobby;
 import entities.Person;
@@ -38,6 +36,13 @@ public class GeneralResource {
     private static final GeneralFacade FACADE = GeneralFacade.getGeneralFacade(EMF);
     private static SetupTestUsers add = new SetupTestUsers();
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getInfoForAll() {
+        return "{\"msg\":\"Hello user from General\"}";
+    }
+    
+    
     @Path("setup")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
