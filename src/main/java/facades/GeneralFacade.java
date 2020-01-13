@@ -8,6 +8,7 @@ package facades;
 import DTO.HobbiesDTO;
 import DTO.HobbyDTO;
 import DTO.PersonDTO;
+import DTO.PersonsDTO;
 import entities.Address;
 import entities.Hobby;
 import entities.Person;
@@ -33,11 +34,12 @@ public class GeneralFacade {
         return instance;
     }
 //adding person
+
     public PersonDTO addPerson(PersonDTO person) {
         EntityManager em = emf.createEntityManager();
         Person p = new Person(person.getEmail(), person.getFirstName(), person.getLastName(), person.getPhone());
         System.out.println("person p:" + p);
-        
+
         Address a = new Address(person.getAddress().getStreet(), person.getAddress().getCity(), person.getAddress().getZip());
         p.setAddress(a);
         System.out.println("person p:" + a);
@@ -47,7 +49,7 @@ public class GeneralFacade {
             String name = h.getName();
             String pDesc = h.getDescription();
             Hobby hobby = new Hobby(name, pDesc);
-            System.out.println("Hobby" +  hobby);
+            System.out.println("Hobby" + hobby);
             p.setHobbies(hobby);
         }
         try {
@@ -59,8 +61,8 @@ public class GeneralFacade {
         }
         return new PersonDTO(p);
     }
-    
-     public PersonDTO getAllPersonsByHobby(String name) {
+
+    public PersonDTO getAllPersonsByHobby(String name) {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p JOIN p.hobbies h WHERE h.name = :hobbyName", Person.class);
@@ -72,33 +74,42 @@ public class GeneralFacade {
             em.close();
         }
     }
-     
-//get all person
-     public PersonDTO getAllPerson(){
-         EntityManager em = emf.createEntityManager();
-         try{
-             List<Person> list = em.createQuery("SELECT p FROM Person p", Person.class).getResultList();
-             return new PersonDTO((Person) list);
-         }finally{
-             em.close();
-         }
-     }
 
-    
-//get all hobbies
-    public HobbiesDTO getAllHobbies(){
+//get all person
+    public PersonsDTO getAllPerson() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            List<Person> list = em.createQuery("SELECT p FROM Person p", Person.class).getResultList();
+            return new PersonsDTO(list);
+        } finally {
+            em.close();
+        }
+    }
+
+//get person by id
+    public PersonDTO getPersonById(int id) {
         EntityManager em = emf.createEntityManager();
         try{
-            List<Hobby> list = em.createQuery("SELECT h FROM Hobby h", Hobby.class).getResultList();
-            return new HobbiesDTO(list);
+            TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p JOIN p.hobbies h JOIN p.address a WHERE p.id = :id", Person.class);
+            Person list = query.setParameter("id", id).getSingleResult();
+            return new PersonDTO( list);
         }finally{
             em.close();
         }
     }
-    
+
+//get all hobbies
+    public HobbiesDTO getAllHobbies() {
+        EntityManager em = emf.createEntityManager();
+        try {
+            List<Hobby> list = em.createQuery("SELECT h FROM Hobby h", Hobby.class).getResultList();
+            return new HobbiesDTO(list);
+        } finally {
+            em.close();
+        }
+    }
+
 //remove a hobby
     
 //edit a hobby
-    
-    
 }

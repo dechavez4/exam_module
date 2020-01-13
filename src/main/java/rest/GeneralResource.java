@@ -7,6 +7,7 @@ package rest;
 
 import DTO.HobbyDTO;
 import DTO.PersonDTO;
+import DTO.PersonsDTO;
 import entities.Address;
 import entities.Hobby;
 import entities.Person;
@@ -17,6 +18,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -73,16 +75,27 @@ public class GeneralResource {
     public List<PersonDTO> getAllPersonsByHobby(String name) {
         return FACADE.getAllPersonsByHobby(name).getAll();
     }
+    
     @GET
     @Path("all/hobby")
     @Produces(MediaType.APPLICATION_JSON)
     public List<HobbyDTO> getAllHobbies(){
         return FACADE.getAllHobbies().getAll();
     }
+    
+    //methods for person only
     @GET
     @Path("all/person")
     @Produces(MediaType.APPLICATION_JSON)
     public List getAllperson(){
         return FACADE.getAllPerson().getAll();
     }
+    
+    @GET
+    @Path("all/person/id/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public PersonDTO getPersonByID(@PathParam("id") int id){
+     return FACADE.getPersonById(id);
+    }
+    
 }
