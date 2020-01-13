@@ -14,6 +14,7 @@ import entities.Person;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -40,9 +41,15 @@ public class GeneralFacade {
         Address a = new Address(person.getAddress().getStreet(), person.getAddress().getCity(), person.getAddress().getZip());
         p.setAddress(a);
         System.out.println("person p:" + a);
-        
-        
-        
+        //grunden til vi looper igennem er fordi vi arbejder med 
+        //en liste af hobbier. 
+        for (HobbyDTO h : person.getHobbies()) {
+            String name = h.getName();
+            String pDesc = h.getDescription();
+            Hobby hobby = new Hobby(name, pDesc);
+            System.out.println("Hobby" +  hobby);
+            p.setHobbies(hobby);
+        }
         try {
             em.getTransaction().begin();
             em.persist(p);
@@ -52,19 +59,20 @@ public class GeneralFacade {
         }
         return new PersonDTO(p);
     }
-//adding hobby
-    public HobbyDTO addHobby(HobbyDTO h) {
+    
+     public PersonDTO getAllPersonsByHobby(String name) {
         EntityManager em = emf.createEntityManager();
-        Hobby hobby = new Hobby(h.getName(), h.getDescription());
         try {
-            em.getTransaction().begin();
-            em.persist(hobby);
-            em.getTransaction().commit();
+            TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p JOIN p.hobbies h WHERE h.name = :hobbyName", Person.class);
+
+            List<Person> list = query.setParameter("hobbyName", name).getResultList();
+
+            return new PersonDTO((Person) list);
         } finally {
             em.close();
         }
-        return new HobbyDTO(hobby);
     }
+
     
 //get all hobbies
     public HobbiesDTO getAllHobbies(){

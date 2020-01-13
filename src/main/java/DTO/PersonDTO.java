@@ -16,7 +16,7 @@ import java.util.Objects;
  * @author Renz
  */
 public class PersonDTO {
-
+    List<PersonDTO> all = new ArrayList();
     private Integer id;
     private String firstName;
     private String lastName;
@@ -46,6 +46,19 @@ public class PersonDTO {
         }
     }
 
+    public List<PersonDTO> getAll() {
+        return all;
+    }
+
+    public void setAll(List<PersonDTO> all) {
+        this.all = all;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+ 
     public String getEmail() {
         return email;
     }

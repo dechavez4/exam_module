@@ -5,13 +5,16 @@
  */
 package rest;
 
+import DTO.HobbyDTO;
 import DTO.PersonDTO;
 import entities.Address;
 import entities.Hobby;
 import entities.Person;
 import facades.GeneralFacade;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -41,8 +44,7 @@ public class GeneralResource {
     public String getInfoForAll() {
         return "{\"msg\":\"Hello user from General\"}";
     }
-    
-    
+
     @Path("setup")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -63,5 +65,18 @@ public class GeneralResource {
     public String fill() {
         add.fill();
         return "setup complete";
+    }
+
+    @Path("/all/hobby/{name}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<PersonDTO> getAllPersonsByHobby(String name) {
+        return FACADE.getAllPersonsByHobby(name).getAll();
+    }
+    @GET
+    @Path("all/hobby")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<HobbyDTO> getAllHobbies(){
+        return FACADE.getAllHobbies().getAll();
     }
 }
