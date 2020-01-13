@@ -49,7 +49,7 @@ public class GeneralResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public PersonDTO setup() {
-        Person p1 = new Person("Hans", "Hansen", "hans@hansen.com", "12345678");
+        Person p1 = new Person("Hans@hansen.com", "Hans", "hansen", "12345678");
         Address a1 = new Address("amager", "københavn", 2300);
         Hobby h1 = new Hobby("fodbold", "test bold");
         p1.setAddress(a1);
