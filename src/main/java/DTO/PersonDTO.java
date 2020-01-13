@@ -32,6 +32,7 @@ public class PersonDTO {
         if (person.getId() != null) {
             this.id = person.getId();
         }
+        this.email = person.getEmail();
         this.firstName = person.getFirstName();
         this.lastName = person.getLastName();
         this.phone = person.getPhone();
