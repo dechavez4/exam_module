@@ -72,6 +72,17 @@ public class GeneralFacade {
             em.close();
         }
     }
+     
+//get all person
+     public PersonDTO getAllPerson(){
+         EntityManager em = emf.createEntityManager();
+         try{
+             List<Person> list = em.createQuery("SELECT p FROM Person p", Person.class).getResultList();
+             return new PersonDTO((Person) list);
+         }finally{
+             em.close();
+         }
+     }
 
     
 //get all hobbies
@@ -84,6 +95,7 @@ public class GeneralFacade {
             em.close();
         }
     }
+    
 //remove a hobby
     
 //edit a hobby

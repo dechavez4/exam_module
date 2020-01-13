@@ -79,4 +79,10 @@ public class GeneralResource {
     public List<HobbyDTO> getAllHobbies(){
         return FACADE.getAllHobbies().getAll();
     }
+    @GET
+    @Path("all/person")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List getAllperson(){
+        return FACADE.getAllPerson().getAll();
+    }
 }
